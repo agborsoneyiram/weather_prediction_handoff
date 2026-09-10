@@ -1,0 +1,2 @@
+Date,Predicted_Temp,Predicted_Humidity,Predicted_Rain,Recorded_Date,Recorded_Time,Actual_Temp,Actual_Humidity,Actual_Rain,Temp_Error,Humidity_Error,Rain_Error,Temp_Status,Humidity_Status,Rain_Status
+2026-06-25,29.07,70.0,0.3,2026-06-24,12:45:15,,,,,,,,,

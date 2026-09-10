@@ -1,0 +1,36 @@
+{
+  "kasoa": {
+    "name": "Kasoa",
+    "latitude": 5.5333,
+    "longitude": -0.4167,
+    "timestamp": "2026-06-11T09:56:25.138797",
+    "openmeteo_current": {
+      "temperature_2m": 28.5,
+      "relative_humidity_2m": 75,
+      "precipitation": 0.0
+    },
+    "models_available": [
+      "temp",
+      "rhum",
+      "prcp"
+    ],
+    "status": "SUCCESS"
+  },
+  "accra": {
+    "name": "Accra",
+    "latitude": 5.6037,
+    "longitude": -0.187,
+    "timestamp": "2026-06-11T09:56:35.955651",
+    "openmeteo_current": {
+      "temperature_2m": 28.3,
+      "relative_humidity_2m": 78,
+      "precipitation": 0.0
+    },
+    "models_available": [
+      "temp",
+      "rhum",
+      "prcp"
+    ],
+    "status": "SUCCESS"
+  }
+}
