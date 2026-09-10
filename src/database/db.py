@@ -1,4 +1,5 @@
 import os
+from urllib.parse import quote_plus
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
@@ -12,7 +13,7 @@ DB_PORT = os.getenv("DB_PORT", "3306")
 DB_NAME = os.getenv("DB_NAME", "weather_prediction")
 
 DATABASE_URL = (
-    f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}"
+    f"mysql+pymysql://{DB_USER}:{quote_plus(DB_PASSWORD)}"
     f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
 
@@ -66,7 +67,7 @@ def save_sensor_reading(reading):
 
     except Exception as e:
         print(f"❌ Failed to save sensor reading: {e}")
-        return False
+        raise
 
 def get_sensor_history(hours=24):
     """Get recent ESP32 sensor readings from MySQL."""
@@ -128,3 +129,8 @@ def get_latest_sensor_reading():
     except Exception as e:
         print(f"❌ Failed to retrieve latest sensor reading: {e}")
         return None
+
+    if __name__ == "__main__":
+        test_connection()
+
+    print("✅ MySQL database connected successfully")

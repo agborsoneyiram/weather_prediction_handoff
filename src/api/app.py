@@ -169,13 +169,22 @@ def sensor_data():
     }
 
     # Save to MySQL
-    database_saved = save_sensor_reading(reading)
+    try:
+        database_saved = save_sensor_reading(reading)
 
-    if not database_saved:
+        if not database_saved:
+            return jsonify({
+                "success": False,
+                "message": "Database save returned false",
+                "database_saved": False
+            }), 500
+
+    except Exception as e:
+        print("🔥 DATABASE EXCEPTION:", repr(e))
+
         return jsonify({
             "success": False,
-            "message": "Sensor data received but could not be saved to database",
-            "database_saved": False
+            "error": str(e)
         }), 500
 
     return jsonify({
@@ -184,6 +193,13 @@ def sensor_data():
         "database_saved": True,
         "data": reading
     })
+    print("🔥 DATABASE EXCEPTION:", repr(e))
+
+    return jsonify({
+        "success": False,
+        "error": str(e)
+    }), 500
+
 
 @app.route("/sensor-data/latest", methods=["GET"])
 def latest_sensor_data():
