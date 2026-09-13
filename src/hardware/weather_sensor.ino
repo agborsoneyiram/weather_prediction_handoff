@@ -1,12 +1,13 @@
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <DHT.h>
 
-const char* ssid = "4G-MIFI-CC71";
-const char* password = "1234567890";
+const char* ssid = "S25Ultra";
+const char* password = "yawa1234";
 
-// Flask server
-const char* serverURL = "http://192.168.100.238:5000/sensor-data";
+// Railway Flask server
+const char* serverURL = "https://weatherpredictionhandoff-production.up.railway.app/sensor-data";
 
 // Device information
 const char* deviceId = "ESP32_001";
@@ -105,63 +106,72 @@ void loop() {
 
   if (WiFi.status() == WL_CONNECTED) {
 
+    WiFiClientSecure client;
+
+    // For testing/demo purposes
+    client.setInsecure();
+
     HTTPClient http;
 
-    http.begin(serverURL);
+    if (http.begin(client, serverURL)) {
 
-    http.addHeader(
-      "Content-Type",
-      "application/json"
-    );
+      http.addHeader("Content-Type", "application/json");
 
-    String jsonData = "{";
+      String jsonData = "{";
 
-    jsonData +=
-      "\"temperature\":" +
-      String(temperature, 1);
+      jsonData +=
+        "\"temperature\":" +
+        String(temperature, 1);
 
-    jsonData +=
-      ",\"humidity\":" +
-      String(humidity, 1);
+      jsonData +=
+        ",\"humidity\":" +
+        String(humidity, 1);
 
-    jsonData +=
-      ",\"rain_value\":" +
-      String(rainValue);
+      jsonData +=
+        ",\"rain_value\":" +
+        String(rainValue);
 
-    jsonData +=
-      ",\"device_id\":\"" +
-      String(deviceId) +
-      "\"";
+      jsonData +=
+        ",\"device_id\":\"" +
+        String(deviceId) +
+        "\"";
 
-    jsonData +=
-      ",\"location\":\"" +
-      String(location) +
-      "\"";
+      jsonData +=
+        ",\"location\":\"" +
+        String(location) +
+        "\"";
 
-    jsonData += "}";
+      jsonData += "}";
 
-    Serial.println("Sending data to Flask...");
+      Serial.println("Sending data to Railway...");
+      Serial.println(jsonData);
 
-    int httpResponseCode = http.POST(jsonData);
+      int httpResponseCode = http.POST(jsonData);
 
-    Serial.print("HTTP response code: ");
-    Serial.println(httpResponseCode);
+      Serial.print("HTTP response code: ");
+      Serial.println(httpResponseCode);
 
-    if (httpResponseCode > 0) {
+      if (httpResponseCode > 0) {
 
-      String response = http.getString();
+        String response = http.getString();
 
-      Serial.println("Flask response:");
-      Serial.println(response);
+        Serial.println("Railway response:");
+        Serial.println(response);
+
+      } else {
+
+        Serial.print("Error sending data: ");
+        Serial.println(httpResponseCode);
+
+      }
+
+      http.end();
 
     } else {
 
-      Serial.print("Error sending data: ");
-      Serial.println(httpResponseCode);
+      Serial.println("Failed to connect to Railway server.");
 
     }
-
-    http.end();
 
   } else {
 
@@ -171,138 +181,3 @@ void loop() {
 
   delay(5000);
 }
-
-//SENSOR CALIBRATION
-
-// #define RAIN_PIN 34
-
-// void setup() {
-//   Serial.begin(115200);
-
-//   delay(1000);
-
-//   Serial.println();
-//   Serial.println("========================================");
-//   Serial.println("      HW-038 RAIN SENSOR CALIBRATION");
-//   Serial.println("========================================");
-//   Serial.println();
-//   Serial.println("Commands:");
-//   Serial.println("D = Dry test");
-//   Serial.println("1 = Light wetness test");
-//   Serial.println("2 = Moderate wetness test");
-//   Serial.println("3 = Heavy wetness test");
-//   Serial.println("4 = Very wet test");
-//   Serial.println();
-//   Serial.println("Each test lasts 30 seconds.");
-//   Serial.println("Enter a command to begin.");
-//   Serial.println();
-
-//   analogReadResolution(12);
-// }
-
-// void runTest(String testName) {
-
-//   Serial.println();
-//   Serial.println("========================================");
-//   Serial.print("TEST: ");
-//   Serial.println(testName);
-//   Serial.println("========================================");
-//   Serial.println();
-
-//   Serial.println("Starting in 3...");
-//   delay(1000);
-
-//   Serial.println("2...");
-//   delay(1000);
-
-//   Serial.println("1...");
-//   delay(1000);
-
-//   Serial.println("GO!");
-//   Serial.println();
-
-//   unsigned long startTime = millis();
-
-//   long total = 0;
-//   int count = 0;
-
-//   int minimum = 4095;
-//   int maximum = 0;
-
-//   while (millis() - startTime < 30000) {
-
-//     int rainValue = analogRead(RAIN_PIN);
-
-//     total += rainValue;
-//     count++;
-
-//     if (rainValue < minimum) {
-//       minimum = rainValue;
-//     }
-
-//     if (rainValue > maximum) {
-//       maximum = rainValue;
-//     }
-
-//     Serial.print("Reading: ");
-//     Serial.println(rainValue);
-
-//     delay(1000);
-//   }
-
-//   float average = (float)total / count;
-
-//   Serial.println();
-//   Serial.println("----------------------------------------");
-//   Serial.println("TEST COMPLETE");
-//   Serial.println("----------------------------------------");
-
-//   Serial.print("Test: ");
-//   Serial.println(testName);
-
-//   Serial.print("Samples: ");
-//   Serial.println(count);
-
-//   Serial.print("Minimum: ");
-//   Serial.println(minimum);
-
-//   Serial.print("Maximum: ");
-//   Serial.println(maximum);
-
-//   Serial.print("Average: ");
-//   Serial.println(average, 2);
-
-//   Serial.println("----------------------------------------");
-//   Serial.println();
-
-//   Serial.println("Enter another command.");
-//   Serial.println();
-// }
-
-// void loop() {
-
-//   if (Serial.available() > 0) {
-
-//     char command = Serial.read();
-
-//     if (command == 'D' || command == 'd') {
-//       runTest("DRY");
-//     }
-
-//     else if (command == '1') {
-//       runTest("LIGHT");
-//     }
-
-//     else if (command == '2') {
-//       runTest("MODERATE");
-//     }
-
-//     else if (command == '3') {
-//       runTest("HEAVY");
-//     }
-
-//     else if (command == '4') {
-//       runTest("VERY WET");
-//     }
-//   }
-// }
