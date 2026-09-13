@@ -33,7 +33,7 @@ OPEN_METEO_API = 'https://archive-api.open-meteo.com/v1/archive'
 OPEN_METEO_REALTIME = 'https://api.open-meteo.com/v1/forecast'
 
 START_DATE = "2020-01-01"
-END_DATE = "2026-06-15"
+END_DATE = "2026-08-31"
 LAG_HOURS = [1, 3, 6, 12, 24]
 ROLLING_WINDOWS = [6, 12, 24]
 
@@ -46,15 +46,13 @@ VALIDATION_START_DATE = "2026-01-01"
 VALIDATION_END_DATE = "2026-03-19"
 
 BACKTEST_TEST_START = "2026-04-01"
-BACKTEST_TEST_END = "2026-06-15"
-
+BACKTEST_TEST_END = "2026-08-31"
 PREDICTION_HORIZONS = [1, 7]
 
 VALIDATION_DIR = PROJECT_ROOT / "validation_results"
 VALIDATION_DIR.mkdir(parents=True, exist_ok=True)
 
-print("✅ Kasoa+Accra | Temp+Humidity+Rainfall | Open-Meteo | XGBoost")
-
+print("✅ Kasoa+Accra | Temp+Humidity+Rainfall | Open-Meteo | Gradient Boosting")
 # ============ RAIN SENSOR CALIBRATION ============
 RAIN_THRESHOLDS = {
     "dry": 75,
