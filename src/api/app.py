@@ -194,12 +194,6 @@ def sensor_data():
         "database_saved": True,
         "data": reading
     })
-    print("🔥 DATABASE EXCEPTION:", repr(e))
-
-    return jsonify({
-        "success": False,
-        "error": str(e)
-    }), 500
 
 
 @app.route("/sensor-data/latest", methods=["GET"])
