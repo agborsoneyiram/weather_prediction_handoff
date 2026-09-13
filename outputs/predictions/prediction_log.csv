@@ -1,3 +1,9 @@
 timestamp,prediction_for,location,predicted_temp,predicted_rhum,predicted_prcp,summary
 2026-06-19T08:57:58.983610,2026-06-20T08:57:50.904258,kasoa,26.19,88.89,0.0,"Warm, very humid, no rain"
 2026-06-19T08:58:00.285832,2026-06-20T08:58:00.172884,accra,25.71,89.64,0.0,"Warm, very humid, no rain"
+2026-09-11T10:55:49.998641,2026-09-12T10:55:49.998000,kasoa,,,,"Moderate temperature, no rain expected"
+2026-09-11T10:55:50.752250,2026-09-12T10:55:50.751798,accra,,,,"Moderate temperature, no rain expected"
+2026-09-11T11:03:20.322559,2026-09-12T11:03:18.601438,kasoa,28.84,70.52,6.32,"Warm, humid, light rain possible"
+2026-09-11T11:03:21.116094,2026-09-12T11:03:21.061121,accra,28.42,68.77,6.07,"Warm, light rain possible"
+2026-09-11T11:46:03.634485,2026-09-12T11:45:57.962641,kasoa,28.84,70.52,6.32,"Warm, humid, light rain possible"
+2026-09-11T11:46:04.605059,2026-09-12T11:46:04.384635,accra,28.42,68.77,6.07,"Warm, light rain possible"

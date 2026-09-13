@@ -135,7 +135,7 @@ def predict_next_day(location='kasoa'):
     
     for metric in config.TARGET_METRICS:
         # Load model
-        model_path = config.MODELS_DIR / f"rf_{metric}.pkl"
+        model_path = config.MODELS_DIR / f"{metric}_model.pkl"
         
         if not model_path.exists():
             print(f"   ⚠️ Model not found for {metric}")
