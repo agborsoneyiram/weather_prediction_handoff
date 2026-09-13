@@ -7,6 +7,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import config
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from datetime import datetime
 
 from weather_service import (get_current_weather, build_feature_row)
@@ -17,6 +18,7 @@ from src.database.db import save_sensor_reading, get_latest_sensor_reading, get_
 from src.preprocessing.live_features import build_live_features
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/")
